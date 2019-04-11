@@ -6,15 +6,15 @@
   <title>YIP Sign Up Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   	
-	<script type="text/javascript" src="signup_jquery.min.js"></script>
-	<script type="text/javascript" src="signup_bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='signup_jquery.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='signup_bootstrap.min.js')}}"></script>
   
-<link rel="stylesheet" type="text/css" href="login_boot.css">
-<link rel="stylesheet" type="text/css" href="login_font.css">
-<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login_boot.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login_font.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
 
-      <link rel="stylesheet" href="signup_style.css">
-      <link rel="short icon" type="image/jpg" href="logo.jpg">
+      <link rel="stylesheet" href="{{ url_for('static',filename='styles/signup_style.css') }}">
+      <link rel="short icon" type="image/jpg" href="{{url_for('static', filename='img/logo.jpg')}}" >
 
   
 </head>
@@ -100,9 +100,10 @@
     <!-- logo -->
   <div class="navbar-fixed">
     <nav class="nav-wrapper transparent z-depth-0" style="height: 12%; width: 100% !important;">
-          <a href="index.html" class="brand-logo right" style="margin-top: 10px;"><img src="./img/yip.png"></a>
-          <a href="http://www.barc.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="./img/kgp.png"></a>    </nav>
+          <a href="index.html" class="brand-logo right" style="margin-top: 10px;"><img src="{{url_for('static', filename='img/yip.png')}}"></a>
+          <a href="http://www.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="{{url_for('static', filename='img/kgp.png')}}"></a>    </nav>
   </div>
+
 <br><br>
 <div id="particles-js"></div>
 <br><br>
@@ -110,14 +111,14 @@
 	<div class="container">
 		<div class="login-container-wrapper clearfix">
 			<div>
-				<img src="logo.jpg" class="logo">
+				<img src="{{url_for('static', filename='img/logo.jpg')}}" class="logo">
 
 				
 
 			</div>
 			<div class="welcome"><strong>Welcome,</strong> please Sign Up</div>
 
-			<form class="form-horizontal login-form" id="signupform" action="../Login/index.html" method="POST">
+			<form class="form-horizontal login-form" id="signupform" method="POST">
 				<div class="form-group relative">
 					<input id="login_email" class="form-control input-lg" type="email" placeholder="Email Id" required>
 				</div>				
@@ -140,14 +141,14 @@
 
 </body>
 
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="login_particle.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='jquery.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='login_particle.js')}}"></script>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   
 
-	<script  src="index.js"></script>
+	<script  src="{{url_for('static', filename='index.js')}}"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -156,25 +157,41 @@
 </script>
 
 <script>
-  jQuery.ajax ({
-                url: "http://127.0.0.1:5000/signup",
-                type: "POST",
-                data: JSON.stringify(
-            
-            {
-                "name":$('#login_username').val(),
-                "email":$('#login_email').val(),
-                "password":$('#login_password').val(),
-            }
-            ),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function(data){
-                    console.log(data);
-                }
-            });
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    $(document).ready(function() 
+    {
+      $('#signupform').submit(function(event) 
+      {
+        jquery.ajax
+        ({
+          data :
+          {
+            "name":$('#login_username').val(),
+            "email":$('#login_email').val(),
+            "password":$('#login_password').val()
+          },
+          type : 'POST',
+          url : 'http://127.0.0.1:5000/signup',
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+        })
+        .done(function(response) 
+        {
+          if (response.msg=='SIGNED UP') 
+          {
+            console.log(response.msg)
+            window.location=response.path
+          }
+          else 
+          {
+            console.log(response.msg)
+            window.location=response.path
+          }
+        }
+      });
+      event.preventDefault();
+    });
+  
+  </script>
 
 </body>
 

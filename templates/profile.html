@@ -8,9 +8,9 @@
   <!--Import Google Icon Font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" type="text/css" href="main.css">
-  <link rel="stylesheet" type="text/css" href="aos.css">
-  <link rel="short icon" type="image/jpg" href="logo.jpg">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/aos.css') }}">
+  <link rel="short icon" type="image/jpg" href="{{url_for('static', filename='img/logo.jpg')}}" >
 
 </head>
 <title>Young Innovators' Program, IIT Kharagpur </title>
@@ -100,8 +100,8 @@ a img{
   <div class="navbar">
     <nav class="black z-depth-0" id="bar1">
         <div class="nav-wrapper">
-          <a href="http://www.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="../img/kgp.png"></a>
-          <a href="http://www.barc.iitkgp.ac.in/" class="brand-logo right" style="margin-top: 10px;"><img src="../img/barc.png"></a>
+          <a href="http://www.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="{{url_for('static', filename='img/kgp.png')}}"></a>
+          <a href="http://www.barc.iitkgp.ac.in/" class="brand-logo right" style="margin-top: 10px;"><img src="{{url_for('static', filename='img/barc.png')}}"></a>
         </div>
     </nav>
   </div>
@@ -191,14 +191,13 @@ a img{
     </form>
   </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='jquery.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='aos.js')}}"></script>
 <script type="text/javascript">
          $(document).ready(function(){
             $('#hola').fadeOut(1000);

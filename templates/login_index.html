@@ -7,14 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   	
 	
-	<script type="text/javascript" src="login_bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="login_bootstrap.min.js"></script> -->
+	<script type="text/javascript" src="{{url_for('static', filename='login_bootstrap.min.js')}}"></script>
   
-<link rel="stylesheet" type="text/css" href="login_boot.css">
-<link rel="stylesheet" type="text/css" href="login_font.css">
-<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/login_boot.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/login_font.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/main.css')}}">
 
-      <link rel="stylesheet" href="login_style.css">
-      <link rel="short icon" type="image/jpg" href="logo.jpg">
+      <link rel="stylesheet" href="{{url_for('static', filename='styles/login_style.css')}}">
+      <link rel="short icon" type="image/jpg" href="{{url_for('static', filename='img/logo.jpg')}}" >
       <style type="text/css">
       	    a img{
   max-height: 10vh !important;
@@ -99,8 +100,8 @@
     <!-- logo -->
   <div class="navbar-fixed">
     <nav class="nav-wrapper transparent z-depth-0" style="height: 12%; width: 100% !important;">
-          <a href="index.html" class="brand-logo right" style="margin-top: 10px;"><img src="./img/yip.png"></a>
-          <a href="http://www.barc.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="./img/kgp.png"></a>    </nav>
+          <a href="index.html" class="brand-logo right" style="margin-top: 10px;"><img src="{{url_for('static', filename='img/yip.png')}}"></a>
+          <a href="http://www.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="{{url_for('static', filename='img/kgp.png')}}"></a>    </nav>
   </div>
 
 
@@ -111,14 +112,14 @@
 	<div class="container">
 		<div class="login-container-wrapper clearfix">
 			<div>
-				<img src="logo.jpg" class="logo">
+				<img src="{{url_for('static', filename='img/logo.jpg')}}" class="logo">
 
 				
 
 			</div>
 			<div class="welcome"><strong>Welcome,</strong> please login</div>
 
-			<form class="form-horizontal login-form" id="loginform" method="GET" >
+			<form class="form-horizontal login-form" id="loginform">
 				<div class="form-group relative">
 					<input id="login_username" class="form-control input-lg" type="email" placeholder="email" required>
 				</div>
@@ -136,11 +137,11 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script type="text/javascript" src="login_particle.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='login_particle.js')}}"></script>
 
   
 
-	<script  src="login_index.js"></script>
+	<script  src="{{url_for('static', filename='login_index.js')}}"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -149,36 +150,41 @@
 </script>
 
 <script>
-   $(document).ready(function() {
 
-$('loginform').on('submit', function(event) {
+    $('#loginform').submit(function(event) 
+    {
+      event.preventDefault();
+      console.log("started");
+      jQuery.ajax
+      ({
+        data :
+        {
+          "email":$('#login_username').val(),
+          "password": $('#login_password').val()
+        },
+        type : 'POST',
+        url : 'http://127.0.0.1:5000/login',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function(response) 
+        {
+          console.log(response);
+        // if (response.msg=='LOGGED IN') 
+        // {
+        //   console.log(response.msg)
+        //   window.location=response.path
+        // }
+        // else 
+        // {
+        //   console.log(response.msg)
+        //   window.location=response.path
+        // }
+        }
+      })
+      console.log("hey buddy  ")
+    });
 
-  $.ajax({
-    data : {
-      _email : $('#login_username').val(),
-      _password : $('#login_passwordt').val()
-    },
-    type : 'POST',
-    url : 'http://127.0.0.1:5000/login'
-  })
-  .done(function(data) {
 
-    if (data.msg) {
-      console.log("hey congrats!!")
-      
-    }
-    else {
-      console.log("yo good luck next time!!")
-      alert(data.msg1)
-    }
-
-  });
-
-  event.preventDefault();
-
-});
-
-});
 </script>
 
 
