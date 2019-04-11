@@ -1,0 +1,210 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <link rel="stylesheet" type="text/css" href="aos.css">
+  <link rel="short icon" type="image/jpg" href="logo.jpg">
+
+</head>
+<title>Young Innovators' Program, IIT Kharagpur </title>
+<style type="text/css">
+.navi{
+  display: none;
+}
+a img{
+  max-height: 10vh !important;
+}
+#yipimg{
+  max-height: 10vh !important;
+  padding-left: 10px;
+}
+
+#bar2{
+            height: auto;
+            width: auto;
+    }
+#bar1{
+            height: 13vh;
+            opacity: 0.8;
+    }
+ .card-panel{
+  height: 250px !important;
+ }
+ @import url(https://fonts.googleapis.com/css?family=Oswald|Josefin+Sans:300);
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* ====  Preloader styles ==== */
+#hola{
+    width: 100vw;
+    height: 100vh;
+    background-color: #252328;
+    position: fixed;
+    z-index: 999;
+}
+#preloader {
+  position:relative;
+    width: 80px;
+    height: 80px;
+    top: 45%;
+    margin: 0 auto;
+}
+#preloader span {
+  position:absolute;
+  border: 8px solid #fff;
+  border-top: 8px solid transparent;
+  border-radius:999px;
+}
+
+#preloader span:nth-child(1){
+  width:80px;
+  height:80px;
+  animation: spin_1 2s infinite linear;
+}
+#preloader span:nth-child(2){
+  top: 20px;
+  left: 20px;
+  width:40px;
+  height:40px;
+  animation: spin_2 1s infinite linear;
+}
+@keyframes spin_1 {
+  0% {transform: rotate(360deg); opacity: 1;}
+  50% {transform: rotate(180deg); opacity: 0.5;}
+  100% {transform: rotate(0deg); opacity: 1;}
+}
+@keyframes spin_2 {
+  0% {transform: rotate(0deg); opacity: 0.5;}
+  50% {transform: rotate(180deg); opacity: 1;}
+  100% {transform: rotate(360deg); opacity: 0.5;}
+}
+</style>
+
+<body>
+        <div id="hola">
+        <div id="preloader">
+        <span></span>
+        <span></span>
+          </div>
+            </div>
+<section>
+  <div class="navbar">
+    <nav class="black z-depth-0" id="bar1">
+        <div class="nav-wrapper">
+          <a href="http://www.iitkgp.ac.in/" class="brand-logo left" style="margin-top: 10px;"><img src="../img/kgp.png"></a>
+          <a href="http://www.barc.iitkgp.ac.in/" class="brand-logo right" style="margin-top: 10px;"><img src="../img/barc.png"></a>
+        </div>
+    </nav>
+  </div>
+</section>
+
+
+<section>
+    <table class="striped">
+      <thead>
+        <tr>
+            <th>Team Name</th>
+            <th>Team ID</th>
+            <th>Team Leader</th>
+            <th>Member 1</th>
+            <th>Member 2</th>
+            <th>Round 1 submission</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Science Scanners</td>
+          <td>1</td>
+          <td><div class="input-field">
+            <input type="text" name="">
+          </div></td>
+          <td><div class="input-field">
+            <input type="text" name="">
+          </div></td>
+          <td><div class="input-field">
+            <input type="text" name="">
+          </div></td>
+          <td>   <form action="#">
+    <div class="file-field input-field">
+      <div class="btn green">
+        <span>File</span>
+        <input type="file" multiple>
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload">
+      </div>
+    </div>
+  </form></td>
+        </tr>
+      </tbody>
+    </table>
+</section>
+
+
+<div class="container">
+  <div class="row">
+    <form class="col s12" id="addform">
+      <div class="row">
+        <div class="input-field col l2 s12">
+          <input placeholder="Team Name" type="text" class="validate">
+        </div>
+        <div class="input-field col l2 s12">
+          <input placeholder="Team Leader" type="text" class="validate">
+        </div>
+        <div class="input-field col l2 s12">
+          <input placeholder="Member 1" type="text" class="validate">
+        </div>
+        <div class="input-field col l2 s12">
+          <input placeholder="Member 2" type="text" class="validate">
+        </div>
+        <br>
+        <div class="col l2 s12">
+          <a class="waves-effect waves-light btn">Add Team</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s7">
+          <input placeholder="Team Name" type="text" class="validate">
+        </div>
+        <br>
+        <div class="col s4">
+          <a class="waves-effect waves-light btn red">Delete Team</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script type="text/javascript">
+         $(document).ready(function(){
+            $('#hola').fadeOut(1000);
+          });
+</script>
+
+
+</body>
+</html>
