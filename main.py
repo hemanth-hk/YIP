@@ -78,6 +78,9 @@ def root():
     print("hqeandkd")
     return render_template('index.html')
 
+@app.route('/signup_index')
+def si():
+    return render_template('signup_index.html')
 @app.route('/signup',methods=['POST'])
 def add_user():
     try:
@@ -93,10 +96,12 @@ def add_user():
             con.commit()
             resp = jsonify('USER REGISTERED')
             resp.status_code = 200
-            path = "127.0.0.1:5000/login"
+            path = "http://127.0.0.1:5000/login_index"
+            print("SIGNED UP NOW")
             return jsonify({'msg' : 'SIGNED UP', 'path' : path}) 
         else:
-            path = "127.0.0.1:5000/signup"
+            path = "127.0.0.1:5000/signup_index"
+            print("SIGNED UP NOW")
             return jsonify({'msg1' : 'NOT SIGNED UP', 'path' : path})
 
     except Exception as e:
@@ -107,32 +112,47 @@ def add_user():
         cur.close()
         con.close()
 
+@app.route('/login_index')
+def log():
+    return render_template('login_index.html')
+
+@app.route('/profiles')
+def pro():
+    return render_template('profile.html')
 @app.route('/login',methods=['POST'])
 def login():
     try:
+        print("1")
         _json =  request.json
         _email = _json['email']
         _password = _json['password']
+        print("2")
         print(_email)
         con = sql.connect("database.db")
         cur = con.cursor()
         cur.execute("SELECT  * FROM users WHERE user_email = ?",(_email,))
+        print("3")
         data = cur.fetchone()
         if data is None:
+            print("4")
             return jsonify('USER DOES NOT EXIST')
         else :
+            print("5")
             if(bcrypt.check_password_hash(data[3],_password)):
                 global token
                 token = encode_auth_token(_email)
+                print("6")
                 print(token)
                 print(decode_auth_token(token))
                 session['loggedin']=True
                 print("loggedin")
                 email = decode_auth_token(token)
+                path = "http://127.0.0.1:5000/profiles"
                 #return redirect(url_for('teachers_team'))
-                return jsonify({'msg' : 'LOGGED IN'})
+                return jsonify({'msg' : 'LOGGED IN','path' : path})
             else:
-                return jsonify({'msg1' : 'credentials are wrong'})
+                path = "http://127.0.0.1:5000/login"
+                return jsonify({'msg1' : 'credentials are wrong','path' : path})
                             
     except Exception as e:
         print(e)
@@ -240,6 +260,20 @@ def deleteafterlogin():
 
     else:
         return jsonify("PLEASE LOG IN")
+
+@app.route('/rules_index')
+def rule():
+    return render_template('rules_index.html')
+
+@app.route('/faq_index')
+def faq():
+    return render_template('faq_index.html')
+
+@app.route('/awards_index')
+def awards():
+    return render_template('awards_index.html')
+
+
 
 @app.route('/users')
 def users():
