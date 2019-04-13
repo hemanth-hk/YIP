@@ -119,12 +119,12 @@
 			</div>
 			<div class="welcome"><strong>Welcome,</strong> please login</div>
 
-			<form class="form-horizontal login-form" id="loginform">
+			<form class="form-horizontal login-form" id="loginform" >
 				<div class="form-group relative">
-					<input id="login_username" class="form-control input-lg" type="email" placeholder="email" required>
+					<input name="login_username" id="login_username" class="form-control input-lg" type="text" placeholder="email" required>
 				</div>
 				<div class="form-group relative password">
-					<input id="login_password" class="form-control input-lg" type="password" placeholder="Password" required>
+					<input id="login_password" name="login_password" class="form-control input-lg" type="password" placeholder="Password" required>
 				</div>
 			  <div class="form-group center">
 			    <button type="submit" class="btn center">Login</button>
@@ -155,30 +155,32 @@
     {
       event.preventDefault();
       console.log("started");
-      jQuery.ajax
-      ({
-        data :
-        {
-          "email":$('#login_username').val(),
-          "password": $('#login_password').val()
-        },
+      data =$(this).serialize()
+      jQuery.ajax({
         type : 'POST',
         url : 'http://127.0.0.1:5000/login',
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
+        data : //a,//JSON.stringify(data, null, '\t'),
+        {
+         "email": $('#login_username').val(),
+         "password": $('#login_password').val()
+        },
+       // contentType: "application/json; charset=utf-8",
+        beforeSend:function(e){
+          console.log(e)
+        },
         success: function(response) 
         {
           console.log(response);
-        // if (response.msg=='LOGGED IN') 
-        // {
-        //   console.log(response.msg)
-        //   window.location=response.path
-        // }
-        // else 
-        // {
-        //   console.log(response.msg)
-        //   window.location=response.path
-        // }
+         if (response.msg=='LOGGED IN') 
+         {
+           console.log(response.msg)
+           window.location=response.path
+         }
+         else 
+         {
+           console.log(response.msg)
+          window.location=response.path
+         }
         }
       })
       console.log("hey buddy  ")
