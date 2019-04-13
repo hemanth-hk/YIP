@@ -75,8 +75,11 @@ def test_decode_auth_token(self):
 
 @app.route('/')
 def root():
-    print("hqeandkd")
-    return render_template('index.html')
+    session['loggedin']=False
+    if not session.get('loggedin'):
+        return render_template('index.html')
+    else:
+        return render_template('index.html')
 
 @app.route('/signup_index')
 def si():
@@ -84,10 +87,14 @@ def si():
 @app.route('/signup',methods=['POST'])
 def add_user():
     try:
-        _json = request.json
+        print("hey yo")
+        _json = request.form
         _name = _json['name']
         _email = _json['email']
         _password = _json['password']
+        print(_name)
+        print(_email)
+        print(_password)
         if _name and _email and _password and request.method == 'POST':            
             _hashed_password = bcrypt.generate_password_hash(_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
             con = sql.connect("database.db")
@@ -119,25 +126,25 @@ def log():
 @app.route('/profiles')
 def pro():
     return render_template('profile.html')
+
 @app.route('/login',methods=['POST'])
 def login():
     try:
-        print("1")
-        _json =  request.json
+        # _json =  request.get_json(force=True).split('=')
+        print(request.form)
+        # _json=str(request.data).split('=')
+        _json= request.form
         _email = _json['email']
         _password = _json['password']
-        print("2")
         print(_email)
+        print (_password)
         con = sql.connect("database.db")
         cur = con.cursor()
         cur.execute("SELECT  * FROM users WHERE user_email = ?",(_email,))
-        print("3")
         data = cur.fetchone()
         if data is None:
-            print("4")
             return jsonify('USER DOES NOT EXIST')
         else :
-            print("5")
             if(bcrypt.check_password_hash(data[3],_password)):
                 global token
                 token = encode_auth_token(_email)
@@ -156,17 +163,17 @@ def login():
                             
     except Exception as e:
         print(e)
-        con.rollback()
+        # con.rollback()
         return(jsonify(e))
 
-    finally:
-        cur.close()
-        con.close()
+    # finally:
+        # cur.close()
+        # con.close()
 
 @app.route('/logout')
 def logout():
     session['loggedin']=False
-    return jsonify('LOGGED OUT')
+    return render_template('index.html')
 
 @app.route('/profile')
 def teachers_team():
