@@ -73,13 +73,15 @@ def test_decode_auth_token(self):
     self.assertTrue(isinstance(auth_token, bytes))
     self.assertTrue(User.decode_auth_token(auth_token) == 1)
 
+
 @app.route('/')
 def root():
     session['loggedin']=False
     if not session.get('loggedin'):
         return render_template('index.html')
     else:
-        return render_template('index.html')
+        return render_template('profile.html')
+
 
 @app.route('/signup_index')
 def si():
@@ -87,15 +89,12 @@ def si():
 @app.route('/signup',methods=['POST'])
 def add_user():
     try:
-        print("hey yo")
         _json = request.form
         _name = _json['name']
         _email = _json['email']
         _password = _json['password']
-        print(_name)
-        print(_email)
-        print(_password)
-        if _name and _email and _password and request.method == 'POST':            
+        _cpassword = _json['cpassword']
+        if _name and _email and _password and _password == _cpassword and request.method == 'POST':            
             _hashed_password = bcrypt.generate_password_hash(_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
             con = sql.connect("database.db")
             cur = con.cursor()
@@ -103,13 +102,13 @@ def add_user():
             con.commit()
             resp = jsonify('USER REGISTERED')
             resp.status_code = 200
-            path = "http://127.0.0.1:5000/login_index"
-            print("SIGNED UP NOW")
-            return jsonify({'msg' : 'SIGNED UP', 'path' : path}) 
+            print("SIGNED UP NOWww")
+            pan = "http://127.0.0.1:5000/login_index"
+            return pan
         else:
             path = "127.0.0.1:5000/signup_index"
             print("SIGNED UP NOW")
-            return jsonify({'msg1' : 'NOT SIGNED UP', 'path' : path})
+            return path
 
     except Exception as e:
         print(e)
@@ -119,32 +118,37 @@ def add_user():
         cur.close()
         con.close()
 
+        
 @app.route('/login_index')
 def log():
     return render_template('login_index.html')
 
+
 @app.route('/profiles')
 def pro():
     return render_template('profile.html')
-
 @app.route('/login',methods=['POST'])
 def login():
+    
     try:
-        # _json =  request.get_json(force=True).split('=')
+        print("1")
         print(request.form)
-        # _json=str(request.data).split('=')
-        _json= request.form
+        _json =  request.form
         _email = _json['email']
         _password = _json['password']
+        print("2")
         print(_email)
-        print (_password)
         con = sql.connect("database.db")
         cur = con.cursor()
         cur.execute("SELECT  * FROM users WHERE user_email = ?",(_email,))
+        print("3")
         data = cur.fetchone()
         if data is None:
-            return jsonify('USER DOES NOT EXIST')
+            print("4")
+            path='USER DOES NOT EXIST'
+            return jsonify({'msg' : 'credentials are wrong','path' : path})
         else :
+            print("5")
             if(bcrypt.check_password_hash(data[3],_password)):
                 global token
                 token = encode_auth_token(_email)
@@ -159,21 +163,22 @@ def login():
                 return jsonify({'msg' : 'LOGGED IN','path' : path})
             else:
                 path = "http://127.0.0.1:5000/login"
-                return jsonify({'msg1' : 'credentials are wrong','path' : path})
+                return jsonify({'msg' : 'credentials are wrong','path' : path})
                             
     except Exception as e:
         print(e)
-        # con.rollback()
+        con.rollback()
         return(jsonify(e))
 
-    # finally:
-        # cur.close()
-        # con.close()
+    finally:
+        cur.close()
+        con.close()
 
 @app.route('/logout')
 def logout():
     session['loggedin']=False
-    return render_template('index.html')
+    print('logged out')
+    return redirect(url_for('log'))
 
 @app.route('/profile')
 def teachers_team():
@@ -206,9 +211,12 @@ def teachers_team():
 
 @app.route('/login/profile/add',methods=['POST'])
 def addafterlogin():
+    print('Hello')
     if session.get('loggedin'):
+        print('hiiiii')
         try:
-            _json =  request.json
+            print('Hooooooo')
+            _json =  request.form
             team_name = _json['team_name']
             student1 = _json['student1']
             student2 = _json['student2']
@@ -241,12 +249,32 @@ def addafterlogin():
     else:
         return jsonify("PLEASE LOG IN")
 
+
+@app.route('/login/profile/teams',methods=['GET'])
+def teams():
+    try:
+        email = decode_auth_token(token)
+        con1 = sql.connect("database2.db")
+        cur1 = con1.cursor()
+        cur1.execute("SELECT  * FROM teacher WHERE teacher_email = ?",(email,))
+        data=cur1.fetchall()
+        data = jsonify(data)
+        print(data)
+        return data
+
+    except Exception as e:
+        print(e)
+        return(jsonify(e))
+        
+
 @app.route('/login/profile/delete',methods=['POST'])
 def deleteafterlogin():
     if session.get('loggedin'):
         try:
-            _json = request.json
+            print('hiii')
+            _json = request.form
             team_name = _json['team_name']
+            print('holaa')
             email = decode_auth_token(token)
             print(email)
             con1 = sql.connect("database2.db")
@@ -369,7 +397,7 @@ def not_found(error=None):
     resp = jsonify(message)
     resp.status_code = 404
 
-    return resp
+    return redirect(url_for('root'))
 
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -399,3 +427,4 @@ if __name__ == "__main__":
     app.run(debug=True)
     unittest.main()
     app.secret_key = os.urandom(10)
+
