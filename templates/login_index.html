@@ -24,8 +24,6 @@
   max-height: 8vh !important;
   padding-left: 10px;
 }
-
-
       .row > div{
       padding: 10px;
       background: #ddd;
@@ -61,7 +59,6 @@
   border-top: 8px solid transparent;
   border-radius:999px;
 }
-
 #preloader span:nth-child(1){
   width:80px;
   height:80px;
@@ -150,7 +147,6 @@
 </script>
 
 <script>
-
     $('#loginform').submit(function(event) 
     {
       event.preventDefault();
@@ -168,25 +164,24 @@
         beforeSend:function(e){
           console.log(e)
         },
-        success: function(response) 
+        success: function(data) 
         {
-          console.log(response);
-         if (response.msg=='LOGGED IN') 
+          console.log(data.path);
+         if (data.msg=='LOGGED IN') 
          {
-           console.log(response.msg)
-           window.location=response.path
+           console.log(data.path);
+           window.location=data.path;
          }
          else 
          {
-           console.log(response.msg)
-          window.location=response.path
+		    alert(data.msg);
+           console.log(data.msg);
+          window.location='http://127.0.0.1:5000/login_index';
          }
-        }
+        },
       })
       console.log("hey buddy  ")
     });
-
-
 </script>
 
 
